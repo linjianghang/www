@@ -1,0 +1,255 @@
+<!DOCTYPE html>
+{layout name="layout"/}
+<html lang="en">
+<head>
+    <meta charset="UTF-8"/>
+    <title>添加商品</title>
+</head>
+<link rel="stylesheet" type="text/css" href="__SOURCE__/webuploader/webuploader.css">
+<script type="text/javascript" src="__SOURCE__/webuploader/webuploader.js"></script>
+<style>
+    #uploader-demo{
+        height: 500px;
+    }
+    #fileList{
+
+    }
+    .upload-state-done{
+        margin-right: 10px;;
+        width: 200px;
+        height: 200px;
+        float: left;
+    }
+    .delete_img_div{
+        width: 190px;
+        height: 35px;
+        background: #000000;
+        position: absolute;
+        z-index: 1;
+        margin-top: -35px;
+        opacity: 0.3;
+    }
+    .delete_img{
+        opacity: 0.5;
+        width: 18px;
+        height: 20px;
+        background: url(__SOURCE__/assets/img/delete_fm.png);
+        position: absolute;
+        z-index: 1;
+        margin-top: -30px;
+        margin-left: 160px;
+    }
+    .delete_img:hover{
+        opacity: 1;
+    }
+</style>
+<body>
+<div class="container kv-main">
+    <form enctype="multipart/form-data" method="post" action="{:url('goods/goods_add_save')}">
+        <div class="form-body row">
+            <div class="col-xs-6 row" >
+                <label class="label-control">封面图</label>
+                <div class="form-groups upload-img">
+                    <input id="file-1" type="file" multiple=true  name="image">
+                    <input class="input-control img" type="hidden" name="img">
+                </div>
+            </div>
+            <div class="col-xs-6 row">
+                <div class="form-groups">
+                    <label class="label-control">商品名称</label>
+                    <input class="input-control id" type="hidden" name="id">
+                    <input class="input-control name" type="text" name="name" placeholder="名称">
+                </div>
+            </div>
+            <div class="col-xs-6 row">
+                <div class="form-groups">
+                    <label class="label-control">商品价格</label>
+                    <input class="input-control money" type="text" name="money" placeholder="商品价格">
+                </div>
+            </div>
+            <div class="col-xs-6 row">
+                <div class="form-groups">
+                    <label class="label-control">商品简介</label>
+                    <input class="input-control simple_desc" type="text" name="simple_desc" placeholder="简介">
+                </div>
+            </div>
+            <div class="col-xs-8 row">
+                <div class="form-groups">
+                    <label class="label-control">商品详情</label>
+                    <textarea id="editor" type="text/plain" name="desc" style="height: 150px;"></textarea>
+                </div>
+            </div>
+            <div class="col-xs-10 row">
+                <div class="form-groups">
+                    <label class="label-control">详情图片</label>
+                    <div id="uploader-demo">
+                        <div id="fileList" class="uploader-list"></div>
+                        <div id="filePicker" style="clear: both;">选择图片</div>
+                    </div>
+                </div>
+            </div>
+        </div>
+        <div class="form-action right row">
+            <!--<button class="button gray_button" type="reset">重 置</button>-->
+            <button class="button" type="submit">提 交</button>
+        </div>
+    </form>
+</div>
+</body>
+<script>
+    var img = '';
+    var img_id_number = 0;
+</script>
+{notempty name="list"}
+    <script>
+        var img_id_number = 0;
+        var head = "{$list['img']}";
+        if(head != null && head != ''){
+            img = "<img src='__UPLOAD__/{$list['img']}' class='file-preview-image'>";
+        }else {
+            img = '';
+        }
+        $('.id').val("{$list['id']}");
+        $('.name').val("{$list['name']}");
+        $('.money').val("{$list['money']}");
+        $('.img').val("{$list['img']}");
+        $('.simple_desc').val("{$list['simple_desc']}");
+        $('#editor').val("{$list['desc']}");
+        var list = '';
+        var info_img = {$list.info_img};
+        if(info_img != null){
+            $.each(info_img, function (k, v) {
+                img_id_number++;
+                list +=  '<div id="default_WU_FILE_' + k + '" class="file-item thumbnail upload-state-done">' +
+                        '<img src="__UPLOAD__/'+v+'">' +
+                        '<input type="hidden" name="info_img[]" value="'+v+'" class="info_img">'+
+                        '<div class="delete_img_div"></div>'+
+                        '<div class="delete_img" onclick="delete_img(this)"></div>'+
+                        '</div>';
+            })
+            $('#fileList').append(list);
+        }
+    </script>
+{/notempty}
+{empty name="list"}
+<script>
+
+</script>
+{/empty}
+<script>
+    $("#file-1").fileinput({
+        showUpload: false,
+        showCaption: false,
+        browseClass: "btn btn-primary btn-lg",
+        fileType: "any",
+        previewFileIcon: "<i class='glyphicon glyphicon-king'></i>",
+        initialPreviewShowDelete: false,//是否可以删除  false 可以
+        initialPreview: img
+    });
+    UE.getEditor('editor');
+    UE.Editor.prototype._bkGetActionUrl = UE.Editor.prototype.getActionUrl;
+    UE.Editor.prototype.getActionUrl = function(action){
+        if(action == 'uploadimage' || action == 'uploadscrawl' || action == 'uploadimage'){
+            return "{:url('upload/upload_img')}";
+        }else{
+            return this._bkGetActionUrl.call(this, action);
+        }
+    }
+
+    // 初始化Web Uploader
+    var uploader = WebUploader.create({
+        // 选完文件后，是否自动上传。
+        auto: true,
+        // swf文件路径
+        swf:   '__SOURCE__/webuploader/Uploader.swf',
+        // 文件接收服务端。
+        server: "{:url('img/upload')}",
+        // 选择文件的按钮。可选。
+        // 内部根据当前运行是创建，可能是input元素，也可能是flash.
+        pick: '#filePicker',
+        // 只允许选择图片文件。
+        accept: {
+            title: 'Images',
+            extensions: 'gif,jpg,jpeg,bmp,png',
+            mimeTypes: 'image/*'
+        }
+    });
+    var thumbnailWidth = 200;
+    var thumbnailHeight = 200;
+    // 当有文件添加进来的时候
+    uploader.on( 'fileQueued', function( file ) {
+        var $li = $(
+                        '<div id="' + file.id + '" class="file-item thumbnail">' +
+                        '<img>' +
+                        '<input type="hidden" name="info_img[]" value="" class="info_img">'+
+                        '<div class="delete_img_div"></div>'+
+                        '<div class="delete_img" onclick="delete_img(this)"></div>'+
+//                        '<div class="info">' + file.name + '</div>' +
+                        '</div>'
+                ),
+                $img = $li.find('img');
+        // $list为容器jQuery实例
+        var $list = $("#fileList");
+        $list.append( $li );
+
+        // 创建缩略图
+        // 如果为非图片文件，可以不用调用此方法。
+        // thumbnailWidth x thumbnailHeight 为 100 x 100
+        uploader.makeThumb( file, function( error, src ) {
+            if ( error ) {
+                $img.replaceWith('<span>不能预览</span>');
+                return;
+            }
+
+            $img.attr( 'src', src );
+        }, thumbnailWidth, thumbnailHeight );
+    });
+    // 文件上传过程中创建进度条实时显示。
+    uploader.on( 'uploadProgress', function( file, percentage ) {
+        var $li = $( '#'+file.id ),
+                $percent = $li.find('.progress span');
+
+        // 避免重复创建
+        if ( !$percent.length ) {
+            $percent = $('<p class="progress"><span></span></p>')
+                    .appendTo( $li )
+                    .find('span');
+        }
+
+        $percent.css( 'width', percentage * 100 + '%' );
+    });
+
+    // 文件上传成功，给item添加成功class, 用样式标记上传成功。
+    uploader.on( 'uploadSuccess', function( file,response) {
+        var url = response.url;//接口返回的图片地址 图片已经上传了 直接存入地址
+//        var img_input = $("<input type='hidden' name='img[]' value='"+url+"'>");
+//        // $list为容器jQuery实例
+//        var $list = $("#uploader-demo");
+//        $list.append( img_input );
+        $( '#'+file.id ).find('.info_img').val(url);
+        $( '#'+file.id ).addClass('upload-state-done');
+    });
+
+    // 文件上传失败，显示上传出错。
+    uploader.on( 'uploadError', function( file ) {
+        var $li = $( '#'+file.id ),
+                $error = $li.find('div.error');
+
+        // 避免重复创建
+        if ( !$error.length ) {
+            $error = $('<div class="error"></div>').appendTo( $li );
+        }
+        $error.text('上传失败');
+    });
+
+    // 完成上传完了，成功或者失败，先删除进度条。
+    uploader.on( 'uploadComplete', function( file ) {
+        $( '#'+file.id ).find('.progress').remove();
+    });
+    //删除添加的图片
+     function delete_img(res){
+         $(res).parent().remove();
+    }
+</script>
+</html>
+</html>

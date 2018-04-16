@@ -1,0 +1,116 @@
+﻿<!DOCTYPE html>
+{layout name="layout"/}
+<html lang="en">
+<head>
+	<meta charset="UTF-8"/>
+	<title>My Website</title>
+</head>
+<style>
+	.owl-item{
+		height: 600px;
+	}
+</style>
+<body>
+<!-- Banner -->
+<section class="tab-content" style="margin-top: -20px;margin-left: 10px;">
+	<div class="container" style="width: 1155px;">
+		<div class="row slider slider-1" style="width: 1155px;">
+			<div class="owl" data-items="4" data-itemsDesktop="3" data-itemsDesktopSmall="2" data-itemsTablet="2" data-itemsMobile="1" data-transitionstyle="fade" data-singleItem="true" data-autoplay="true" data-pag="false" data-buttons="false">
+				<!-- 轮播图 -->
+				<div class="banner_img">
+					<img src="__HOME__/images/l1.jpg" alt="image">
+				</div>
+				<div class="banner_img">
+					<img src="__HOME__/images/l2.jpg" alt="image">
+				</div>
+				<div class="banner_img">
+					<img src="__HOME__/images/l3.jpg" alt="image">
+				</div>
+				<div class="banner_img">
+					<img src="__HOME__/images/l4.jpg" alt="image">
+				</div>
+				<div class="banner_img">
+					<img src="__HOME__/images/l5.jpg" alt="image">
+				</div>
+			</div>
+		</div>
+	</div>
+</section>
+<div class="tab-content" style="margin-top: 40px;">
+	<div role="tabpanel" class="tab-pane active" id="tab-description">
+		<div class="row">
+			{empty name="list"}
+				<h2 style="text-align: center;">暂无商品</h2>
+			{/empty}
+			{notempty name="list"}
+			<div class="row">
+				{foreach $list as $k=>$v}
+					<div class="col-sm-6 col-md-4 col-lg-3">
+						<!-- Product item -->
+						<div class="product-item">
+							<a href="{:url('index/info',array('id'=>$v.id))}">
+								<img src="__UPLOAD__/{$v.img}" alt="image" height="138.75">
+							</a>
+							<div class="product-caption">
+								<h4 class="product-name">
+									<a href="{:url('index/info',array('id'=>$v.id))}">{$v.name}</a>
+								</h4>
+								<div class="product-price-group">
+									<span class="product-price">￥ {$v.money}</span>
+								</div>
+								<div class="ht-btn-group">
+									<a href="#" class="wishlist_btn"><i class="fa fa-heart-o"></i></a>
+									<a href="#">加入购物车</a>
+									<a href="#" class="compare_btn"><i class="fa fa-exchange"></i></a>
+								</div>
+							</div>
+						</div>
+					</div>
+				{/foreach}
+			</div>
+			<div class="row" style="text-align: center">
+				{$page}
+			</div>
+			{/notempty}
+		</div>
+	</div>
+</div>
+<!-- 联系电话之类的 -->
+<section  class="process" style="margin-top: 20px;">
+	<div class="container">
+		<div class="row">
+			<div class="col-sm-6 col-md-4">
+				<div class="media ht-media">
+					<div class="media-left">
+						<i class="fa fa-phone bg-6"></i>
+					</div>
+					<div class="media-body">
+						<h5 class="media-heading">联系电话: 0123-123-233</h5>
+					</div>
+				</div>
+			</div>
+			<div class="col-sm-6 col-md-4">
+				<div class="media ht-media">
+					<div class="media-left">
+						<i class="fa fa-truck bg-2"></i>
+					</div>
+					<div class="media-body">
+						<h5 class="media-heading">所有订单免费送货</h5>
+					</div>
+				</div>
+			</div>
+			<div class="col-sm-6 col-md-4">
+				<div class="media ht-media">
+					<div class="media-left">
+						<i class="fa fa-undo bg-3"></i>
+					</div>
+					<div class="media-body">
+						<h5 class="media-heading">100%退款保证</h5>
+					</div>
+				</div>
+			</div>
+		</div>
+	</div>
+</section>
+</body>
+</html>

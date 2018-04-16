@@ -1,0 +1,128 @@
+﻿<!DOCTYPE html>
+<html xmlns="http://www.w3.org/1999/xhtml">
+<head>
+    <meta charset="utf-8" />
+    <meta name="viewport" content="width=device-width, initial-scale=1.0" />
+    <title>My Website</title>
+    <!-- BOOTSTRAP STYLES-->
+    <link href="__ADMIN__/assets/css/bootstrap.css" rel="stylesheet" />
+    <!-- FONTAWESOME STYLES-->
+    <link href="__ADMIN__/assets/css/font-awesome.css" rel="stylesheet" />
+       <!--CUSTOM BASIC STYLES-->
+    <link href="__ADMIN__/assets/css/basic.css" rel="stylesheet" />
+    <!--CUSTOM MAIN STYLES-->
+    <link href="__ADMIN__/assets/css/custom.css" rel="stylesheet" />
+    <!-- GOOGLE FONTS-->
+    <link href='http://fonts.googleapis.com/css?family=Open+Sans' rel='stylesheet' type='text/css' />
+    <!-- 图片上传相关 -->
+    <link href="__SOURCE__/assets/css/bootstrap.min.css" rel="stylesheet">
+    <link href="__SOURCE__/assets/css/fileinput.css" media="all" rel="stylesheet" type="text/css" />
+    <script src="__SOURCE__/assets/js/jquery-2.0.3.min.js"></script>
+    <script src="__SOURCE__/assets/js/fileinput.js" type="text/javascript"></script>
+    <script src="__SOURCE__/assets/js/fileinput_locale_de.js" type="text/javascript"></script>
+    <script src="__SOURCE__/assets/js/bootstrap.min.js" type="text/javascript"></script>
+    <!--富文本-->
+    <script type="text/javascript" charset="utf-8" src="__SOURCE__/ueditor/ueditor.config.js"></script>
+    <script type="text/javascript" charset="utf-8" src="__SOURCE__/ueditor/ueditor.all.min.js"> </script>
+    <!--建议手动加在语言，避免在ie下有时因为加载语言失败导致编辑器加载失败-->
+    <!--这里加载的语言文件会覆盖你在配置项目里添加的语言类型，比如你在配置项目里配置的是英文，这里加载的中文，那最后就是中文-->
+    <script type="text/javascript" charset="utf-8" src="__SOURCE__/ueditor/lang/zh-cn/zh-cn.js"></script>
+    <script type="text/javascript" charset="utf-8" src="__SOURCE__/layer/layer.js"></script>
+</head>
+<body>
+    <div id="wrapper">
+        <nav class="navbar navbar-default navbar-cls-top " role="navigation" style="margin-bottom: 0">
+            <div class="navbar-header">
+                <button type="button" class="navbar-toggle" data-toggle="collapse" data-target=".sidebar-collapse">
+                    <span class="sr-only">Toggle navigation</span>
+                    <span class="icon-bar"></span>
+                    <span class="icon-bar"></span>
+                    <span class="icon-bar"></span>
+                </button>
+                <a class="navbar-brand" href="{:url('index')}">MY WEBSITE</a>
+            </div>
+            <!--<div class="header-right">-->
+                <!--<a href="message-task.html" class="btn btn-info" title="New Message"><b>30 </b><i class="fa fa-envelope-o fa-2x"></i></a>-->
+                <!--<a href="message-task.html" class="btn btn-primary" title="New Task"><b>40 </b><i class="fa fa-bars fa-2x"></i></a>-->
+                <!--<a href="login.html" class="btn btn-danger" title="Logout"><i class="fa fa-exclamation-circle fa-2x"></i></a>-->
+            <!--</div>-->
+        </nav>
+        <!-- /. NAV TOP  -->
+        <nav class="navbar-default navbar-side" role="navigation">
+            <div class="sidebar-collapse">
+                <ul class="nav" id="main-menu">
+                    <li>
+                        <div class="user-img-div">
+                            <!-- 头像 -->
+                            {notempty name="$layout_user.head"}
+                            <img src="__UPLOAD__/{$layout_user.head}" class="img-thumbnail"  />
+                            {else /}
+                            <img src="__UPLOAD__/img/1.jpg" class="img-thumbnail"  />
+                            {/notempty}
+                            <div class="inner-text" style="text-align: left;padding-top: 10px;">
+                                {$layout_user.username}
+                            <br />
+                                <small>Last Login : {$layout_user.ltime ? date('Y-m-d H:i:s',$layout_user.ltime) : date('Y-m-d H:i:s',time())}</small>
+                                <br />
+                                <small><a href="{:url('login/out')}" style="color: #fff">退出登陆</a></small>
+                            </div>
+                        </div>
+                    </li>
+                    <li>
+                        {if condition="$url eq 'index/index'"}
+                            <a class= "active-menu" href="{:url('index')}"><i class="fa fa-dashboard "></i>首页</a>
+                        {else /}
+                            <a href="{:url('index/index')}"><i class="fa fa-dashboard "></i>首页</a>
+                        {/if}
+                    </li>
+                    {foreach $layout_menu as $v}
+                        {if condition="$v['items'] neq null"}
+                            <li>
+                                <!-- todo class="active-menu-top"  -->
+                                <a class="{$v['class']}" href="#"><i class="fa fa-circle-o"></i>{$v['name']}<span class="fa arrow"></span></a>
+                                <!-- todo in -->
+                                <ul class="nav nav-second-level {$v['in']}">
+                                    {foreach $v['items'] as $vv}
+                                        <li>
+                                            <a class= "{$vv['class']}" href="{:url($vv['route'])}"><i class="fa fa-sign-in"></i>{$vv['name']}</a>
+                                        </li>
+                                    {/foreach}
+                                </ul>
+                            </li>
+                            {else/}
+                                <li>
+                                    <a class= "{$v['class']}" href="{:url($v['route'])}"><i class="fa fa-circle-o "></i>{$v['name']}</a>
+                                </li>
+                        {/if}
+                    {/foreach}
+                </ul>
+
+            </div>
+
+        </nav>
+        <!-- /. NAV SIDE  -->
+        <div id="page-wrapper">
+            <div id="page-inner">
+                {__CONTENT__}
+            </div>
+            <!-- /. PAGE INNER  -->
+        </div>
+        <!-- /. PAGE WRAPPER  -->
+    </div>
+    <!-- /. WRAPPER  -->
+
+    <div id="footer-sec">
+        My Website  Author: linjianhang
+    </div>
+    <!-- /. FOOTER  -->
+    <!-- SCRIPTS -AT THE BOTOM TO REDUCE THE LOAD TIME-->
+    <!-- JQUERY SCRIPTS -->
+    <script src="__ADMIN__/assets/js/jquery-1.10.2.js"></script>
+    <!-- BOOTSTRAP SCRIPTS -->
+    <script src="__ADMIN__/assets/js/bootstrap.js"></script>
+    <!-- METISMENU SCRIPTS -->
+    <script src="__ADMIN__/assets/js/jquery.metisMenu.js"></script>
+       <!-- CUSTOM SCRIPTS -->
+    <script src="__ADMIN__/assets/js/custom.js"></script>
+</body>
+</html>

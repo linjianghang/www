@@ -1,0 +1,55 @@
+<!DOCTYPE html>
+<html lang="en">
+<head>
+    <meta charset="UTF-8">
+    <title>Title</title>
+</head>
+{//  包含头部模版header }
+<!--{//include file="public/header" /}-->
+<body>
+{/* 注释内容 */ }
+{// 注释内容 }
+    <h1>测试页面</h1>
+    <div>{$name}</div>
+    <div>{$Think.APP_PATH}</div>
+    <div>{$user.nickname|default="这家伙很懒，什么也没留下"}</div>
+    <div>{$status?  '正常' : '错误'}；</div>
+    <div>{eq name='status' value="1"}5444{/eq})</div>
+    {literal}
+        Hello,{$name}！
+    {/literal}
+    <div>
+        {if condition="$status eq 0"}
+            233333
+        {elseif condition="$status eq 1"/}value2
+        {else/}
+            666666666666
+        {/if}
+    </div>
+    <div>
+        {empty name='$status'}
+            555
+        {/empty}
+    </div>
+<hr>
+    <div>
+        {volist name='list' id='val'}
+            {$val.name}:{$val.phone}<br/>
+        {/volist}
+    </div>
+<hr>
+{foreach $list as $val}
+{$val.name}:{$val.phone}<br/>
+{/foreach}
+<hr>
+{foreach name="list" item="val" }
+{$val.name}:{$val.phone}<br/>
+{/foreach}
+<hr>
+{between name="status" value="1,10"}
+输出内容1
+{else/}
+输出内容2
+{/between}
+</body>
+</html>

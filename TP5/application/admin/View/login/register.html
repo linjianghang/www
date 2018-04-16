@@ -1,0 +1,58 @@
+<!DOCTYPE html>
+<html>
+<head>
+	<title>My Website</title>
+		<meta charset="utf-8">
+		<link href="__SOURCE__/assets/css/style.css" rel='stylesheet' type='text/css' />
+		<script src="__SOURCE__/assets/js/jquery-2.0.3.min.js"></script>
+		<meta name="viewport" content="width=device-width, initial-scale=1">
+		<script type="application/x-javascript"> addEventListener("load", function() { setTimeout(hideURLbar, 0); }, false); function hideURLbar(){ window.scrollTo(0,1); } </script>
+		<!--webfonts-->
+		<link href='http://fonts.googleapis.com/css?family=Open+Sans:600italic,400,300,600,700' rel='stylesheet' type='text/css'>
+		<link href="__SOURCE__/assets/css/fileinput.css" media="all" rel="stylesheet" type="text/css" />
+		<!--//webfonts-->
+</head>
+<body>
+	 <!-----start-main---->
+	 <div class="main">
+		<div class="login-form">
+			<h1>注&nbsp;&nbsp;&nbsp;&nbsp;册</h1>
+					<div class="head">
+						<img src="__SOURCE__/assets/img/user.png" alt=""/>
+					</div>
+				<form id="from" action="{:url('login/register')}" method="post">
+						<input type="text" class="text username" placeholder="用户名" name="username">
+						<input class="password" type="password" placeholder="密码" name="password">
+						<div class="col-xs-3 row">
+							<div class="form-groups">
+								<label class="label-control">等级</label>
+								<select class="input-control type" name="type" style="background: #D3D3D3">
+									<option value="1">二级权限</option>
+									<option value="2" >一级权限</option>
+								</select>
+							</div>
+						</div>
+					<div class="submit"><input type="submit" value="注 册" ></div>
+					<p style="margin-top: 6%;"><a href="{:url('login/index')}">登 录</a></p>
+				</form>
+			</div>
+		 	<div class="copy-right">
+			 	<p>My Website —— lin</p>
+		 	</div>
+		</div>
+</body>
+<script>
+	$(document).ready(function(){
+		$('form').submit(function () {
+			if ($('.username').val()=="") {
+				alert("用户名不能为空");
+				return false;
+			};
+			if ($('.password').val() =="") {
+				alert("密码不能为空");
+				return false;
+			};
+		});
+	})
+</script>
+</html>

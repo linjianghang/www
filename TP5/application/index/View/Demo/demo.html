@@ -1,0 +1,65 @@
+<!DOCTYPE html>
+<html lang="en">
+<head>
+    <meta charset="UTF-8">
+    <title>Title</title>
+</head>
+<body>
+<style>
+    .list li{
+        list-style:none;
+        color: #fff;
+    }
+    .list ul:hover{
+        background: #ff391c;
+    }
+    .list ul{
+        margin: 10px;
+        padding: 20px;
+        float: left;
+        background: #ff6666;
+    }
+    .page{
+        clear: left;
+        margin-left: 40%;
+    }
+    .page li:hover{
+        background: #2480ff;
+        color: #fff;
+    }
+    a{
+        text-decoration:none;
+        color: #383838;
+    }
+    .page li{
+        color: #fff;
+        list-style:none;
+        float: left;
+        width: 30px;
+        height: 30px;
+        background: #53b4ff;
+        margin: 2px;
+        text-align: center;
+        line-height: 30px;;
+    }
+</style>
+<div>
+    <div style="width: 1000px;margin:auto;" class="list">
+        {volist name='list' id='user'}
+        <ul>
+            <li> {$user.username}</li>
+            <li> {$user.password}</li>
+            <li> {$user.age}</li>
+            <li> {$user.sex}</li>
+            <li> {$user.time}</li>
+            <li> {$user.status}</li>
+        </ul>
+        {/volist}
+    </div>
+    <div class="page">
+        {$page}
+        {// $list->render()}
+    </div>
+    </div>
+</body>
+</html>

@@ -1,0 +1,95 @@
+<!DOCTYPE html>
+{layout name="layout"/}
+<html lang="en">
+<head>
+    <meta charset="UTF-8"/>
+    <title>商品列表</title>
+</head>
+<body>
+</body>
+<div class="all" >
+    <ul class="nav nav-tabs">
+        <li class="active">
+            <a href="#">
+                商品列表 </a>
+        </li>
+    </ul>
+    <div class="tab-content">
+        <table class="table-class">
+            <tr role="row" class="filter">
+                <td colspan="11">
+                    <form method="post" action="{:url('goods/goods_list')}">
+                        <div class="col-xs-2">
+                            <label class="control-label">商品名称</label>
+                            <input type="text" class="form-control form-filter input-sm name" name="name" value="{$name ? $name : '';}">
+                        </div>
+                        <div class="col-xs-5">
+                            <div class="col-xs-2" style="margin-top: 22px">
+                                <button type="submit" class="btn btn-sm yellow"><i class="fa fa-search"></i> 搜索</button>
+                            </div>
+                        </div>
+                    </form>
+                </td>
+            </tr>
+            <tr>
+                <th>操作</th>
+                <th>图片</th>
+                <th>商品名称</th>
+                <th>商品价格</th>
+                <th>商品简介</th>
+                <th>添加时间</th>
+                <th>状态</th>
+            </tr>
+            {volist name='list' id='user'}
+            <tr>
+                <td>
+                    <div class="btn-group dropup action-menu">
+                        <button data-toggle="dropdown" class="btn btn-default btn-xs dropdown-toggle" onclick="operation(this)">
+                            <i class="fa fa-pencil"></i>
+                            <i class="fa fa-caret-down"></i>
+                        </button>
+                        <ul class="operation-menu">
+                            <span class="triangle"></span>
+                            <li><a href="{:url('goods/goods_add',['id'=>$user['id']])}" class="operation-a">修改</a></li>
+                            <li>
+                                <a href="{:url('goods/goods_disabled',['id'=>$user['id']])}" class="operation-a">
+                                    {if condition="$user.status eq 0"}
+                                    禁用
+                                    {else/}
+                                    启用
+                                    {/if}
+                                </a>
+
+                            </li>
+                        </ul>
+                    </div>
+                </td>
+                <td>{notempty name="$user.img"}<img src="__UPLOAD__/{$user.img}" width="50">{/notempty}</td>
+                <td>{$user.name}</td>
+                <td>￥ {$user.money}</td>
+                <td>{$user.simple_desc}</td>
+                <td><?php echo date('Y-m-d H:i:s',$user['ctime']);?></td>
+                <td>{if condition="$user.status eq 0"}正常{else/}禁用{/if}</td>
+            </tr>
+            {/volist}
+        </table>
+    </div>
+    {$page}
+</div>
+</html>
+<script>
+    $(document).click(function(e) {
+        if($(e.target).attr("class") != 'dropdown-toggle' && $(e.target).attr("class") != ''){
+            $('.operation-menu').hide()
+        }
+    })
+    function operation(e){
+        var s = $(e).siblings('.operation-menu').css('display')
+        if(s == 'none'){
+            $('.operation-menu').hide()
+            $(e).siblings('.operation-menu').show()
+        }else{
+            $(e).siblings('.operation-menu').hide()
+        }
+    }
+</script>

@@ -1,0 +1,62 @@
+<!DOCTYPE html>
+<html>
+<head>
+	<title>My Website</title>
+		<meta charset="utf-8">
+		<link href="__SOURCE__/assets/css/style.css" rel='stylesheet' type='text/css' />
+		<script src="__SOURCE__/assets/js/jquery-2.0.3.min.js"></script>
+		<meta name="viewport" content="width=device-width, initial-scale=1">
+		<script type="application/x-javascript"> addEventListener("load", function() { setTimeout(hideURLbar, 0); }, false); function hideURLbar(){ window.scrollTo(0,1); } </script>
+		<!--webfonts-->
+		<link href='http://fonts.googleapis.com/css?family=Open+Sans:600italic,400,300,600,700' rel='stylesheet' type='text/css'>
+		<!--//webfonts-->
+</head>
+<body>
+	 <!-----start-main---->
+	 <div class="main">
+		<div class="login-form">
+			<h1>登&nbsp;&nbsp;&nbsp;&nbsp;录</h1>
+					<div class="head">
+						<img src="__SOURCE__/assets/img/user.png" alt=""/>
+					</div>
+				<form id="from" action="{:url('login/login')}" method="post">
+						<input type="text" class="text username" placeholder="用户名" name="username">
+						<!--<span class="err_msg">用户名不能为空</span>-->
+						<input class="password" type="password" placeholder="密码" name="password">
+					    <input class="code" type="text" placeholder="验证码" name="code" style="width:40%;float: left;">
+						<div style="margin: 25px 0 0 10px;width: 48%;float: left;font-size: 12px;">
+							<img id="code_img" src="{:captcha_src()}" alt="验证码" onclick="refreshVerify()" />
+							<a href="javascript:refreshVerify()">点击刷新</a>
+						</div>
+						<!--<span class="err_msg">密码不能为空</span>-->
+					<div class="submit"><input type="submit" value="登 录" ></div>
+					<p style="margin-top: 6%;"><a href="{:url('login/register_view')}">注 册</a></p>
+				</form>
+			</div>
+		 	<div class="copy-right">
+			 	<p>My Website —— lin</p>
+		 	</div>
+		</div>
+</body>
+<script>
+	function refreshVerify() {
+		$('#code_img').attr("src", "{:captcha_src()}");
+	}
+	$(document).ready(function(){
+		$('form').submit(function () {
+			if ($('.username').val()=="") {
+				alert("用户名不能为空");
+				return false;
+			};
+			if ($('.password').val() =="") {
+				alert("密码不能为空");
+				return false;
+			};
+			if ($('.code').val() =="") {
+				alert("验证码不能为空");
+				return false;
+			};
+		});
+	})
+</script>
+</html>

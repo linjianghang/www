@@ -1,0 +1,87 @@
+<!DOCTYPE html>
+{layout name="layout"/}
+<html lang="en">
+<head>
+    <meta charset="UTF-8"/>
+    <title>个人信息</title>
+</head>
+<body>
+<div class="container kv-main">
+    <form enctype="multipart/form-data" method="post" action="{:url('user/edit')}">
+        <div class="form-body row">
+            <div class="col-xs-6 row" >
+                <div class="form-groups upload-img">
+                    <input id="file-1" type="file" multiple=true  name="head">
+                    <input type="hidden" multiple=true  name="head" value="{$user['head']}">
+                </div>
+            </div>
+            <div class="col-xs-6 row">
+                <div class="form-groups">
+                    <label class="label-control">用户名</label>
+                    <input class="input-control username" type="text" name="username" placeholder="用户名" value="{$user['username']}">
+                </div>
+            </div>
+            <div class="col-xs-2 row">
+                <div class="form-groups">
+                    <label class="label-control">性别</label>
+                    <select class="input-control sex" name="sex">
+                        <option value="0">未知</option>
+                        <option value="1">男</option>
+                        <option value="2" >女</option>
+                    </select>
+                </div>
+            </div>
+            <div class="col-xs-6 row">
+                <div class="form-groups">
+                    <label class="label-control">年龄</label>
+                    <input class="input-control age" type="text" name="age" placeholder="年龄" value="{$user['age']}">
+                </div>
+            </div>
+            <div class="col-xs-6 row">
+                <div class="form-groups">
+                    <label class="label-control">手机号</label>
+                    <input class="input-control telphone" type="text" name="telphone" placeholder="手机号" value="{$user['telphone']}">
+                </div>
+            </div>
+            <div class="col-xs-6 row">
+                <div class="form-groups">
+                    <label class="label-control">居住地址</label>
+                    <input class="input-control address" type="text" name="address" placeholder="居住地址" value="{$user['address']}">
+                </div>
+            </div>
+            <div class="col-xs-10 row">
+                <div class="form-groups">
+                    <label class="label-control">个人描述</label>
+                    <textarea id="editor" type="text/plain" name="desc" style="height: 300px;">{$user['desc']}</textarea>
+                </div>
+            </div>
+        </div>
+        <div class="form-action right row">
+            <!--<button class="button gray_button" type="reset">重 置</button>-->
+            <button class="button" type="submit">提 交</button>
+        </div>
+    </form>
+</div>
+</body>
+<script>
+    $('.sex').val("{$user['sex']}");
+    var head = "{$user['head']}";
+    if(head != null && head != ''){
+        img = "<img src='__UPLOAD__/{$user['head']}' class='file-preview-image'>";
+    }else {
+        img = '';
+    }
+    $("#file-1").fileinput({
+        showUpload: false,
+        showCaption: false,
+        browseClass: "btn btn-primary btn-lg",
+        fileType: "any",
+        previewFileIcon: "<i class='glyphicon glyphicon-king'></i>",
+        initialPreviewShowDelete: false,//是否可以删除  false 可以
+        initialPreview: img
+    });
+    window.UEDITOR_HOME_URL ='__UPLOAD__/{yyyy}{mm}{dd}/{time}{rand:6}';
+    UE.getEditor('editor');
+</script>
+</html>
+</html>
